@@ -1,0 +1,16 @@
+#!/Users/bensmith/.nvm/versions/node/v15.0.1/bin/node
+
+let fs = require("fs");
+let Phrase = require("bsmith-palindrome");
+
+let text = fs.readFileSync("phrases.txt", "utf-8");
+let palindromes = [];
+text.split("\n").forEach(function (line) {
+  let phrase = new Phrase(line);
+  if (phrase.isPalindrome()) {
+    palindromes.push(line);
+    console.log("palindrome detected:", line);
+  }
+});
+
+fs.writeFileSync("palindromes.txt", palindromes.join("\n"));

@@ -1,15 +1,24 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 let Phrase = require("bsmith-palindrome");
 
-let string = prompt("Please enter a string for palindrome testing:");
+function palindromeTester(event) {
+  event.preventDefault();
+  let phrase = new Phrase(event.target.phrase.value);
+  let palindromeResult = document.querySelector("#palindromeResult");
 
-let phrase = new Phrase(string);
-
-if (phrase.isPalindrome()) {
-  alert(`${phrase.content} is a palindrome!`);
-} else {
-  alert(`${phrase.content} is not a palindrome.`);
+  if (phrase.isPalindrome()) {
+    palindromeResult.innerHTML = `<strong>"${phrase.content}"</strong> is a palindrome!`;
+  } else {
+    palindromeResult.innerHTML = `<strong>"${phrase.content}"</strong> is not a palindrome.`;
+  }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  let tester = document.querySelector("#palindromeTester");
+  tester.addEventListener("submit", function (event) {
+    palindromeTester(event);
+  });
+});
 
 },{"bsmith-palindrome":2}],2:[function(require,module,exports){
 module.exports = Phrase;
@@ -36,7 +45,11 @@ function Phrase(content) {
   };
 
   this.isPalindrome = function () {
-    return this.processedContent() === this.processedContent().reverse();
+    if (this.processedContent()) {
+      return this.processedContent() === this.processedContent().reverse();
+    } else {
+      return false;
+    }
   };
 
   this.letters = function () {
@@ -45,8 +58,5 @@ function Phrase(content) {
     return t.join("");
   };
 }
-
-val = new Phrase("racecar");
-console.log("val.letters(): ", val.letters());
 
 },{}]},{},[1]);

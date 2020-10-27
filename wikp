@@ -1,0 +1,31 @@
+#!/Users/bensmith/.nvm/versions/node/v15.0.1/bin/node
+let process = require("process");
+
+let urllib = require("urllib");
+if (process.argv.length != 3) {
+  console.log("number of args", process.argv.length);
+  console.log("Incorrect number of arguments.");
+  process.exit(1);
+}
+
+let url = process.argv[2];
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
+urllib.request(url, { followRedirect: true }, function (error, data, response) {
+  let body = data.toString();
+  // Simulate a Document Object Model.
+  let { document } = new JSDOM(body).window;
+  let paragraphs = document.querySelectorAll("p");
+  let references = document.querySelectorAll(".reference");
+
+  // Remove any references
+  references.forEach((reference) => {
+    reference.remove();
+  });
+
+  // Print out all paragraphs
+  paragraphs.forEach((paragraph) => {
+    console.log(paragraph.textContent);
+  });
+});

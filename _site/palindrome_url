@@ -1,0 +1,15 @@
+#!/Users/bensmith/.nvm/versions/node/v15.0.1/bin/node
+
+let fs = require("fs");
+let Phrase = require("bsmith-palindrome");
+let urllib = require("urllib");
+
+let url = "https://cdn.learnenough.com/phrases.txt";
+let palindromes = [];
+
+urllib.request(url, { followRedirect: true }, function (error, data, response) {
+  let body = data.toString();
+  let lines = body.split("\n");
+  let palindromes = lines.filter((line) => new Phrase(line).isPalindrome());
+  palindromes.forEach((line) => console.log("palindrome detected:", line));
+});
